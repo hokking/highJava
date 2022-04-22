@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+	
+<!-- 이 문서는 ibatis에서 처리할 SQL문을 작성하는 문서입니다. -->
+<sqlMap namespace="lprod">
+	<!-- 
+		이 부분에는 처리할 SQL문에 맞는 태그를 사용하여 SQL문을 작성한다.
+		
+		사용할 수 있는 기본태그들
+		<select> 처리할 SQL문 </select>
+		<insert> 처리할 SQL문 </insert>
+		<delete> 처리할 SQL문 </delete>
+		<update> 처리할 SQL문 </update>
+		...
+	 -->
+	 
+	<!-- 
+		id속성 : 실행할 태그를 Java소스에서 호출할 때 사용되는 이름으로 
+		<sqlMap>태그의 namespace속상값과 연결해서 사용한다.
+		예) "lprod.insertLprod"
+	 	
+	 	parameterClass속성 : SQL문에 사용할 데이터가 저장된 객체를 설정한다.
+	 		(보통 VO클래스, Java의 기본자료형이름, Map객체 등이 사용된다.)
+	 		(VO클래스 등을 기술할때는 항상 클래스의 전체이름을 사용하거나 
+	 		 <typeAlias>에서 설정한 alias명을 사용한다.)
+	 -->
+	 
+	<insert id="insertLprod" parameterClass="kr.or.ddit.vo.LprodVO">
+<!-- 	<insert id="insertLprod" parameterClass="lprodVo"> -->
+		insert into lprod(lprod_id, lprod_gu, lprod_nm)
+		values (#lprod_id#, #lprod_gu#, #lprod_nm#)
+	</insert>
+	
+	<!-- parameterClass에 typeAlias에서 설정한 alias명을 사용할 수 있다. -->
+	<update id="updateLprod" parameterClass="lprodVo">
+		update lprod
+		set lprod_id=#lprod_id#, lprod_nm=#lprod_nm#
+		where lprod_gu=#lprod_gu#
+	</update>
+	
+	<!-- 
+		parameterClass에 설정되는 값이 단일값이면 
+		SQL문에 이 값을 나타내는 변수 이름은 사용자 임의로 지정할 수 있다.
+	 -->
+	<delete id="deleteLprod" parameterClass="string">
+		delete from lprod where lprod_gu=#lprod_gu#
+	</delete>
+	
+	<!-- 
+		resultClass : select문이 처리한 결과를 저장할 VO클래스나 Map클래스 
+					     또는 Java의 기본 자료형 이름을 지정한다.
+					  select한 결과가 여러개이면 자동으로 List에 담아준다.
+					    그래서 결과가 여러개 일 경우에도 resultClass에 지정하는 것은 
+					    한개의 레코드가 저장될 클래스나 자료형 이름을 지정하면 된다.
+	 -->
+	<select id="getAllLprod" resultClass="lprodVo">
+		select * from lprod
+	</select>
+	<select id="getLprod" resultClass="lprodVo" parameterClass="string">
+		select * from lprod where lprod_gu=#lprod_gu#
+	</select>
+</sqlMap>
